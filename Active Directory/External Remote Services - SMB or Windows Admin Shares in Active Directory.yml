@@ -7,13 +7,14 @@ tags: [UEBA, Active Directory, External Remote Services, SMB, Windows Admin Shar
 logsource:
     product: Windows Security Log
     service: Security
-    definition: Group Policy
+    definition: Microsoft-Windows-Security-Auditing
 detection:
     selection_base:
-        EventID: 5145
+        EventID:
+            - 4624
+            - 5140
     selection_keywords:
-        ShareName:
-            - '*$'
+        ShareName: '*$'
         AccessMask: 0x00020000
     condition: selection_keywords
 falsepositives:
@@ -23,7 +24,7 @@ level: critical
 
 output:
     title: Suspicious External SMB/Windows Admin Share Access Alert
-    description: 
+    description: |
         Generates an alert for suspicious SMB/Windows Admin Shares access from external sources in the Active Directory environment.
     fields:
         - RuleID
