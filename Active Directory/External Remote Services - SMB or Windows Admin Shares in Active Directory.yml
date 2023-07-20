@@ -1,0 +1,38 @@
+title: External Remote Services - SMB/Windows Admin Shares in Active Directory
+status: experimental
+description: Detects suspicious SMB/Windows Admin Shares access from external sources in the Active Directory environment.
+author: Rodan Maharjan
+date: 2023-07-25
+tags: [UEBA, Active Directory, External Remote Services, SMB, Windows Admin Shares]
+logsource:
+    product: Windows Security Log
+    service: Security
+    definition: Group Policy
+detection:
+    selection_base:
+        EventID: 5145
+    selection_keywords:
+        ShareName:
+            - '*$'
+        AccessMask: 0x00020000
+    condition: selection_keywords
+falsepositives:
+    - Legitimate remote system management from authorized sources.
+    - Scheduled backup or data replication.
+level: critical
+
+output:
+    title: Suspicious External SMB/Windows Admin Share Access Alert
+    description: 
+        Generates an alert for suspicious SMB/Windows Admin Shares access from external sources in the Active Directory environment.
+    fields:
+        - RuleID
+        - RuleTitle
+        - AlertID
+        - Severity
+        - SourceIP
+        - DestinationIP
+        - ShareName
+        - AccessMask
+        - Timestamp
+        - Description
