@@ -1,0 +1,38 @@
+title: External Remote Services - DNS in Active Directory
+status: stable
+description: Detects suspicious DNS activities related to external remote services in the Active Directory environment.
+author: Rodan Maharjan
+date: 2023-07-21
+modified: 
+tags: [UEBA, DNS, Active Directory, External Remote Services]
+logsource:
+    product: Windows Security Log
+    service: DNS Server
+    definition: Group Policy
+detection:
+    selection_base:
+        EventID: 4662
+    selection_keywords:
+        PrivilegeList|contains: 'RemoteAccess'
+    condition: selection_base and selection_keywords
+falsepositives:
+    - Legitimate DNS queries from authorized systems.
+    - Internal DNS resolution.
+level: medium
+
+output:
+    title: "External Remote Services - DNS in Active Directory Dashboard"
+    description: 
+        Dashboard displaying alerts and analysis for the "External Remote Services: DNS in Active Directory" detection rule. Provides visual representations and key metrics to assist security analysts in identifying and mitigating potential threats.
+    fields:
+        - RuleID
+        - RuleTitle
+        - AlertID
+        - Severity
+        - SourceIP
+        - DestinationIP
+        - DNSQuery
+        - Timestamp
+        - FalsePositive
+        - InvestigationNotes
+        - ActionsTaken
