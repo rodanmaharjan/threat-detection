@@ -4,6 +4,8 @@ description: |
     Detects VNC traffic to the Internet, which may indicate an attempt to access Active Directory externally using VNC. VNC should not be directly exposed to the Internet as it can be exploited by threat actors as an initial access vector.
 author: Rodan Maharjan
 date: 2023-07-25
+references:
+    -https://attack.mitre.org/techniques/T1021/005/
 tags:
     - UEBA
     - Active Directory
