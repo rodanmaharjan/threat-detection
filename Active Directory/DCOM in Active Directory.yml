@@ -1,0 +1,26 @@
+title: DCOM in Active Directory
+status: stable
+description: Detects suspicious DCOM activities related to external remote services in Active Directory.
+author: Rodan Maharjan
+date: 2023-07-28
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID:
+            - 10009
+            - 10016
+    condition: selection
+fields:
+    - EventID
+    - SourceIPAddress
+    - TargetIPAddress
+    - ProcessName
+    - EventData
+output:
+    title: Suspicious DCOM Activity - External Remote Services
+    description: |
+        This alert indicates potential suspicious DCOM activity related to external remote services in the Active Directory environment.
+        It is crucial to investigate and remediate any anomalous DCOM behavior immediately.
+    status: high
