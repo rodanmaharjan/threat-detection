@@ -1,0 +1,28 @@
+title: Windows Remote Management (WinRM) in Active Directory
+status: stable
+description: Detects suspicious WinRM activities in the Active Directory environment.
+author: Your Company Name
+date: 2023-07-28
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID:
+            - 4625
+            - 4626
+            - 4627
+    condition: selection
+fields:
+    - EventID
+    - TargetUserName
+    - TargetDomainName
+    - SourceNetworkAddress
+    - SubjectUserName
+    - SubjectDomainName
+output:
+    title: Suspicious WinRM Activity in Active Directory
+    description: |
+        This alert indicates potential suspicious WinRM activity in the Active Directory environment.
+        It is crucial to investigate and remediate any anomalous WinRM behavior immediately.
+    status: medium
