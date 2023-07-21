@@ -1,7 +1,7 @@
 title: Windows Remote Management (WinRM) in Active Directory
 status: stable
 description: Detects suspicious WinRM activities in the Active Directory environment.
-author: Your Company Name
+author: Rodan Maharjan
 date: 2023-07-28
 logsource:
     product: windows
