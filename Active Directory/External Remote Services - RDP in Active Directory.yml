@@ -1,8 +1,10 @@
 title: External Remote Services - RDP in Active Directory
 status: experimental
 description: Detects suspicious Remote Desktop Protocol (RDP) access from external sources in the Active Directory environment.
-author: Your Name
+author: Rodan Maharjan
 date: 2023-07-29
+references:
+    - https://attack.mitre.org/techniques/T1021/001/
 tags: [UEBA, Active Directory, External Remote Services, RDP]
 logsource:
     product: Windows Security Log
