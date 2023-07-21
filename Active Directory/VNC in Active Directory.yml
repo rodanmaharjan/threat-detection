@@ -1,0 +1,35 @@
+title: VNC in Active Directory
+status: experimental
+description: |
+    Detects VNC traffic to the Internet, which may indicate an attempt to access Active Directory externally using VNC. VNC should not be directly exposed to the Internet as it can be exploited by threat actors as an initial access vector.
+author: Rodan Maharjan
+date: 2023-07-25
+tags:
+    - UEBA
+    - Active Directory
+    - External Remote Services
+    - VNC
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        destination.port: 5900
+falsepositives:
+    - Legitimate VNC connections from authorized administrators.
+    - VNC traffic to internal IP addresses.
+level: high
+output:
+    title: Suspicious VNC Traffic to the Internet
+    description: |
+        Generates an alert for VNC traffic to the Internet, which may indicate an attempt to access Active Directory externally using VNC. It is crucial to investigate and remediate any unauthorized VNC access immediately.
+    fields:
+        - RuleID
+        - RuleTitle
+        - AlertID
+        - Severity
+        - SourceIP
+        - DestinationIP
+        - DestinationPort
+        - Timestamp
+        - Description
