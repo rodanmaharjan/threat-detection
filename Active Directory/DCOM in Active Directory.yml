@@ -3,6 +3,8 @@ status: stable
 description: Detects suspicious DCOM activities related to external remote services in Active Directory.
 author: Rodan Maharjan
 date: 2023-07-28
+references:
+    -https://attack.mitre.org/techniques/T1021/003/
 logsource:
     product: windows
     service: security
