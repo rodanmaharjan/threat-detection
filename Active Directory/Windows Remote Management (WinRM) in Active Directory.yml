@@ -3,6 +3,8 @@ status: stable
 description: Detects suspicious WinRM activities in the Active Directory environment.
 author: Rodan Maharjan
 date: 2023-07-28
+references:
+    -https://attack.mitre.org/techniques/T1021/006/
 logsource:
     product: windows
     service: security
