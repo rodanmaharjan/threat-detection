@@ -3,6 +3,8 @@ status: experimental
 description: Detects suspicious SMB/Windows Admin Shares access from external sources in the Active Directory environment.
 author: Rodan Maharjan
 date: 2023-07-25
+references:
+     -https://attack.mitre.org/techniques/T1021/002/
 tags: [UEBA, Active Directory, External Remote Services, SMB, Windows Admin Shares]
 logsource:
     product: Windows Security Log
