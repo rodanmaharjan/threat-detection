@@ -1,0 +1,31 @@
+title: Remote Services - Cloud Services in Active Directory
+status: stable
+description: Detects suspicious remote service connections to cloud services in the Active Directory environment.
+author: Your Company Name
+date: 2023-07-28
+references:
+    - https://attack.mitre.org/techniques/T1021/007/
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID:
+            - 4624
+            - 5140
+            - 5145
+    condition: selection
+fields:
+    - EventID
+    - TargetUserName
+    - TargetDomainName
+    - SourceNetworkAddress
+    - AuthenticationPackageName
+    - SubjectUserName
+    - SubjectDomainName
+output:
+    title: Suspicious Cloud Service Access in Active Directory
+    description: |
+        This alert indicates potential suspicious remote service connections to cloud services in the Active Directory environment.
+        It is crucial to investigate and remediate any unauthorized cloud service activity immediately.
+    status: medium
