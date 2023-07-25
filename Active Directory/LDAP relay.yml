@@ -1,0 +1,29 @@
+title: LDAP Relay 
+description: Detects potential LDAP relay attacks targeting Active Directory for initial access.
+status: experimental
+author: Rodan Maharjan
+date: 2023-07-25
+logsource:
+    product: Windows Security Log
+    service: Security
+    definition: Group Policy
+detection:
+    selection_base:
+        EventID: 2889
+    selection_keywords:
+        AuthenticationPackage: "NTLM"
+        EventType: "Account Logon"
+    condition: selection_keywords
+output:
+    title: LDAP Relay - Initial Access Detected
+    description: |
+        This alert indicates potential LDAP relay attacks targeting Active Directory for initial access.
+        Immediate investigation and mitigation are recommended to prevent unauthorized access.
+     fields:
+         - EventID
+         - AuthenticationPackage
+         - EventType
+         - SourceIPAddress
+         - AccountName
+         - EventTime
+    status: high
