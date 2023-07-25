@@ -1,0 +1,62 @@
+title: RDP MiTM Detection
+id: 3ad49c61-7adc-42c1-b788-732eda2f5abf
+status: experimental
+description: Detects potential RDP Man-in-the-Middle (MiTM) attacks in Active Directory.
+author: Rodan Maharjan
+date: 2023-07-21
+modified: 2023-07-25
+references:
+    - https://attack.mitre.org/techniques/T1021/001/
+tags:
+  - attack.mitm
+  - attack.initial_access
+logsource:
+  product: windows
+  service: security
+detection:
+  selection_base:
+    EventID: 4624
+    LogonType: 10
+  selection_keywords:
+    - "LogonType 10"
+  condition: >
+    (EventID == 4624) and
+    (TargetUserName != "ANONYMOUS LOGON") and
+    (TargetUserName != "LOCAL SERVICE") and
+    (TargetUserName != "NETWORK SERVICE") and
+    (TargetUserName != "SYSTEM") and
+    (TargetUserName != "WINDOW MANAGER\DWM-3")
+    // Add more exclusions if necessary based on legitimate accounts
+    and
+    (
+      (IpAddress == "127.0.0.1") or
+      (IpAddress == "::1") or
+      (IpAddress == "localhost") or
+      (IpAddress == "<loopback>")
+    ) or
+    (
+      // Add known RDP server IP addresses or CIDR ranges
+      (IpAddress in ["10.0.0.0/8", "192.168.0.0/16", "172.16.0.0/12"])
+    ) or
+    (
+      // Add known VPN gateway IP addresses or CIDR ranges
+      (IpAddress in ["x.x.x.x", "y.y.y.y"])
+    )
+falsepositives:
+  - "Legitimate RDP sessions from trusted IP addresses."
+  - "Known RDP sessions from VPN gateway IP addresses."
+level: high
+output:
+  title: RDP MiTM Alert
+  description: This rule triggered on a potential RDP Man-in-the-Middle (MiTM) attack in Active Directory.
+  fields:
+    - RuleID
+    - RuleTitle
+    - AlertID
+    - Severity
+    - SourceIP
+    - DestinationIP
+    - SourceUsername
+    - DestinationUsername
+    - Timestamp
+    - Description
