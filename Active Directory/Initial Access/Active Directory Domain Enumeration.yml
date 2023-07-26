@@ -1,7 +1,7 @@
 title: Active Directory Domain Enumeration Attempts
 id: ad_domain_enumeration_detection_rule
 status: stable
-description: Detects potential Active Directory enumeration attempts using PowerShell commands.
+description: Detects potential Active Directory Domain enumeration attempts using PowerShell commands.
 author: Rodan Maharjan
 date: 2023-07-26
 references:
