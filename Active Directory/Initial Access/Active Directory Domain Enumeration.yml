@@ -1,0 +1,52 @@
+title: Active Directory Domain Enumeration Attempts
+id: ad_domain_enumeration_detection_rule
+status: stable
+description: Detects potential Active Directory enumeration attempts using PowerShell commands.
+author: Rodan Maharjan
+date: 2023-07-26
+references:
+  - https://github.com/S1ckB0y1337/Active-Directory-Exploitation-Cheat-Sheet#using-powerview
+  - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4688
+  - https://hideandsec.sh/books/cheatsheets-82c/page/active-directory#bkmrk-domain-enumeration
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID:
+      - 4688
+    CommandLine:
+      - '*Get-NetDomain*'
+      - '*Get-ADDomain*'
+      - '*Get-DomainSID*'
+      - '*Get-DomainPolicy*'
+      - '*Get-DomainController*'
+      - '*Find-DomainShare*'
+      - '*Find-InterestingDomainShareFile*'
+      - '*Find-DomainUserLocation*'
+      - '*Test-AdminAccess*'
+level: medium
+tags:
+  - attack.enumeration
+  - attack.t1087
+  - attack.t1069
+falsepositives:
+  - yes
+output:
+  title: Active Directory Enumeration Attempt Detected
+  description: An attempted enumeration of the Active Directory domain was detected.
+  severity: medium
+  tags:
+    - attack.enumeration
+    - attack.t1087
+    - attack.t1069
+  ttp:
+    - T1087: Account Discovery
+    - T1069: Permission Groups Discovery
+  event:
+    kind: event
+    category: Active Directory Domain Enumeration
+    description: Enumeration activity detected in Active Directory.
+    product: windows
+    timestamp: "*"
+    url: "*"
