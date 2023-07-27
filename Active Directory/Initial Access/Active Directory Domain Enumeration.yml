@@ -1,9 +1,9 @@
-title: Active Directory Domain Enumeration Attempts
+title: Detect Active Directory Domain Enumeration Attempts
 id: ad_domain_enumeration_detection_rule
-status: stable
-description: Detects potential Active Directory Domain enumeration attempts using PowerShell commands.
+status: experimental
+description: Detects potential Active Directory domain enumeration attempts using PowerShell commands.
 author: Rodan Maharjan
-date: 2023-07-26
+date: 2023-07-27
 references:
   - https://github.com/S1ckB0y1337/Active-Directory-Exploitation-Cheat-Sheet#using-powerview
   - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4688
@@ -33,7 +33,7 @@ tags:
 falsepositives:
   - yes
 output:
-  title: Active Directory Enumeration Attempt Detected
+  title: Active Directory Domain Enumeration Attempt Detected
   description: An attempted enumeration of the Active Directory domain was detected.
   severity: medium
   tags:
@@ -43,10 +43,3 @@ output:
   ttp:
     - T1087: Account Discovery
     - T1069: Permission Groups Discovery
-  event:
-    kind: event
-    category: Active Directory Domain Enumeration
-    description: Enumeration activity detected in Active Directory.
-    product: windows
-    timestamp: "*"
-    url: "*"
