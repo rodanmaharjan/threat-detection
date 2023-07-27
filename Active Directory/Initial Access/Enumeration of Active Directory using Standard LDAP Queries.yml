@@ -1,0 +1,45 @@
+title: Enumeration of Active Directory using Standard LDAP Queries
+id: ad_enumeration_standard_ldap_queries
+status: stable
+description: Detects potential enumeration attempts in Active Directory using standard LDAP queries.
+references:
+  - https://attack.mitre.org/techniques/T1069/
+  - https://attack.mitre.org/techniques/T1018/
+  - https://attack.mitre.org/techniques/T1087/
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4662
+    ObjectServer: 'NTDS'
+    ObjectType:
+      - 'bf9679ab-0de6-11d0-a285-00aa003049e2' # User object
+      - 'bf967a86-0de6-11d0-a285-00aa003049e2' # Group object
+      - 'bf967aba-0de6-11d0-a285-00aa003049e2' # OrganizationalUnit object
+    AccessMask:
+      - 0x8 # Read access
+      - 0x800 # Read property access
+  condition: 
+    EventID == 4662 and
+    (
+      ObjectServer == 'NTDS' and (
+        ObjectType in ['bf9679ab-0de6-11d0-a285-00aa003049e2', 'bf967a86-0de6-11d0-a285-00aa003049e2', 'bf967aba-0de6-11d0-a285-00aa003049e2'] or
+        AccessMask in [0x8, 0x800]
+      )
+    )
+level: medium
+falsepositives:
+  - Legitimate access to Active Directory objects for administrative purposes may trigger this rule.
+  title: Enumeration of Active Directory using Standard LDAP Queries Detected
+  description: An attempted enumeration of Active Directory objects using standard LDAP queries was detected.
+  severity: medium
+  tags:
+    - attack.enumeration
+    - attack.t1069
+    - attack.t1018
+    - attack.t1087
+  ttp:
+    - T1069: Permission Groups Discovery
+    - T1018: Remote System Discovery
+    - T1087: Account Discovery
