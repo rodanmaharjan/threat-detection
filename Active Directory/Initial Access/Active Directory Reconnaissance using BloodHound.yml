@@ -1,0 +1,33 @@
+title: Active Directory Reconnaissance using BloodHound
+id: ad_recon_bloodhound
+status: stable
+description: Detects suspicious usage of BloodHound for Active Directory reconnaissance, indicating potential unauthorized attempts to assess and map AD permissions, trust relationships, and attack paths.
+references:
+  - http://www.stuffithoughtiknew.com/2019/02/detecting-bloodhound.html
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    CommandLine:
+      - '*bloodhound.exe*'
+      - '*SharpHound.exe*'
+      - '*Invoke-BloodHound*'
+      - '*Invoke-SharpHound*'
+  condition: selection
+level: medium
+falsepositives:
+  - Legitimate usage of BloodHound for authorized Active Directory reconnaissance.
+  - Ensure that events are correlated with other indicators for proper validation.
+output:
+  title: Suspicious BloodHound Usage Detected
+  description: Suspicious usage of BloodHound for Active Directory reconnaissance was detected.
+  severity: medium
+  tags:
+    - attack.reconnaissance
+    - attack.t1087
+    - attack.t1088
+  category: Detection
+  detection:
+    name: BloodHound Reconnaissance Attempt
+    alertId: ad_recon_bloodhound
