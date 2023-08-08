@@ -10,7 +10,7 @@ logsource:
 detection:
   selection:
     EventID: 4624
-  condition: >
+  condition: 
     EventID == 4624 AND
     LogonType == 3 AND
     LogonProcessName == "NtLmSsp" AND
