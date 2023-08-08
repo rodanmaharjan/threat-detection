@@ -1,0 +1,44 @@
+title: Pass-the-Hash (PtH) Attack on Active Directory
+id: ad_pth_attack_detection
+status: stable
+description: Detects Pass-the-Hash (PtH) attacks on Active Directory by detecting reused NTLM hashes.
+references:
+  - Insert_References_Here
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4624
+  condition: >
+    EventID == 4624 AND
+    LogonType == 3 AND
+    LogonProcessName == "NtLmSsp" AND
+    LogonType|value("0x3") in values("0x3", "0x3e6", "0x3e7", "0x3e8") AND
+    TargetLogonId != SubjectLogonId AND
+    SubjectUserSid != TargetUserSid
+falsepositives:
+  - Legitimate cases of multiple authentication attempts by users from different systems or locations.
+level: medium
+tags:
+  - attack.authentication
+  - attack.t1550
+  - attack.t1075
+output:
+  title: Pass-the-Hash (PtH) Attack Detected
+  description: A Pass-the-Hash (PtH) attack was detected in the Active Directory environment.
+  severity: medium
+  tags:
+    - attack.authentication
+    - attack.t1550
+    - attack.t1075
+  ttp:
+    - T1550: Use Alternate Authentication Material
+    - T1075: Pass the Hash
+  event:
+    kind: event
+    category: Pass-the-Hash (PtH) Attack
+    description: Reused NTLM hash detected in authentication event.
+    product: windows
+    timestamp: "*"
+    url: "*"
