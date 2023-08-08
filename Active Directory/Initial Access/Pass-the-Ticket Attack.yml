@@ -1,0 +1,40 @@
+title: Pass-the-Ticket (PtT) Attack on Active Directory
+id: ad_ptt_attack_detection
+status: stable
+description: Detects Pass-the-Ticket (PtT) attacks on Active Directory by detecting reused Kerberos tickets.
+references:
+  - Insert_References_Here
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4768
+  condition: 
+    EventID == 4768 AND
+    KerberosTicket.IsReused == true
+falsepositives:
+  - Legitimate cases of multiple authentication attempts by users from different systems or locations.
+level: medium
+tags:
+  - attack.authentication
+  - attack.t1550
+  - attack.t1097
+output:
+  title: Pass-the-Ticket (PtT) Attack Detected
+  description: A Pass-the-Ticket (PtT) attack was detected in the Active Directory environment.
+  severity: medium
+  tags:
+    - attack.authentication
+    - attack.t1550
+    - attack.t1097
+  ttp:
+    - T1550: Use Alternate Authentication Material
+    - T1097: Pass the Ticket
+  event:
+    kind: event
+    category: Pass-the-Ticket (PtT) Attack
+    description: Reused Kerberos ticket detected in authentication event.
+    product: windows
+    timestamp: "*"
+    url: "*"
