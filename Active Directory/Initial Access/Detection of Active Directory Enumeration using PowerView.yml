@@ -1,0 +1,22 @@
+title: Detection of Active Directory Enumeration using PowerView
+id: 12345678-aaaa-bbbb-cccc-1234567890ab
+description: Detects potential Active Directory enumeration using PowerView.
+status: experimental
+date: 2023-08-11
+logsource:
+    product: windows
+    event_id: 4688
+detection:
+    selection:
+        EventData.NewProcessName:
+            - '*\powershell.exe'
+            - '*\powershell_ise.exe'
+            - '*\pwsh.exe'
+    condition: "'*PowerView.ps1*' IN EventData.CommandLine"
+fields:
+    - EventData.Image
+    - EventData.CommandLine
+    - EventData.NewProcessName
+falsepositives:
+    - Legitimate use of PowerView for administration and enumeration.
+level: high
