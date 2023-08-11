@@ -2,6 +2,8 @@ title: Detection of Active Directory Enumeration using PowerView
 id: 12345678-aaaa-bbbb-cccc-1234567890ab
 description: Detects potential Active Directory enumeration using PowerView.
 status: experimental
+references:
+    - https://github.com/PowerShellMafia/PowerSploit/blob/dev/Recon/PowerView.ps1
 date: 2023-08-11
 logsource:
     product: windows
