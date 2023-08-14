@@ -1,0 +1,41 @@
+title: Detection of Suspicious enum4linux Usage in Active Directory
+status: experimental
+description: Detects potentially malicious usage of the enum4linux tool in an Active Directory environment.
+detection:
+  selection:
+    EventID: 4688
+    NewProcessName:
+      - '*\enum4linux.exe'
+      - '*\enum4linux.pl'
+  condition:
+    And:
+      - Equals:
+          EventData.Image: "C:\\Windows\\System32\\cmd.exe"
+      - Contains:
+          EventData.ParentCommandLine:
+            - "-Command"
+            - "-c"
+      - Or:
+          - NotEquals:
+              EventData.ParentImage: "*\\powershell.exe"
+          - NotEquals:
+              EventData.ParentImage: "*\\powershell_ise.exe"
+      - Or:
+          - NotEquals:
+              EventData.ParentImage: "C:\\Windows\\explorer.exe"
+          - NotEquals:
+              EventData.ParentImage: "*\\wscript.exe"
+          - NotEquals:
+              EventData.ParentImage: "*\\cscript.exe"
+          - NotEquals:
+              EventData.ParentImage: "*\\python.exe"
+          - NotEquals:
+              EventData.ParentImage: "*\\python3.exe"
+  fields:
+    - EventID
+    - EventData.Image
+    - EventData.ParentImage
+    - EventData.ParentCommandLine
+    - EventData.CommandLine
+  timeframe: last 1h
+level: high
