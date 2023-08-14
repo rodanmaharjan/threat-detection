@@ -1,0 +1,25 @@
+title: NetBIOS Name Enumeration
+status: experimental
+description: Detects NetBIOS Name Service (NBT-NS) enumeration activity
+date: 2023/08/14
+logsource:
+  category: network
+  product: firewall
+detection:
+  selection:
+    DestinationPort: 137
+    DestinationIP:
+      - '*'
+  condition: |
+    count() by SourceIP, DestinationIP > 5
+    and exists(SourceIP)
+falsepositives:
+  - Legitimate use of NBT-NS for name resolution
+level: medium
+tags:
+  - Reconnaissance
+  - Network
+output:
+  title: NetBIOS Name Enumeration Detected
+  description: Multiple NetBIOS Name Service (NBT-NS) queries detected from {SourceIP} to various destination IP addresses in the network. Potential reconnaissance activity.
+  severity: medium
