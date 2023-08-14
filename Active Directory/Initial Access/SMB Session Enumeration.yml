@@ -1,0 +1,26 @@
+title: SMB Session Enumeration Detection
+id: smb-session-enumeration-detection
+status: experimental
+description: Detects potential unauthorized SMB session enumeration activity.
+logsource:
+  category: windows_security
+  product: Microsoft-Windows-Security-Auditing
+detection:
+  selection:
+    EventID: 4625
+    TargetUsername: '*$'
+    LogonType: 3
+    FailureCode: 0xC000006D
+  condition: count() by SourceIP > 5 and exists(SourceIP)
+level: medium
+output:
+  title: SMB Session Enumeration Detected
+  description: Suspicious SMB session enumeration attempt from {SourceIP}.
+  severity: medium
+falsepositives:
+  - Legitimate SMB session enumeration for network administration purposes.
+tags:
+  - attack.discovery
+  - attack.t1087
+  - attack.t1088
+  - attack.t1069
