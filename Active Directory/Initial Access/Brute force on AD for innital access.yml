@@ -1,0 +1,26 @@
+title: Detection of Brute Force Attack on Active Directory
+status: experimental
+description: Detects Brute Force Attacks targeting user accounts in Active Directory.
+logsource:
+  category: Windows Security
+  product: Active Directory
+detection:
+  selection:
+    EventID: 4625
+  condition:
+    EventData.TargetUserName: "*"
+  fields:
+    - EventData.TargetUserName
+    - EventData.WorkstationName
+    - EventData.SourceNetworkAddress
+    - EventData.FailureReason
+    - EventData.FailureReasonString
+    - EventData.SubjectUserSid
+    - EventData.SubjectUserName
+    - EventData.SubjectDomainName
+output:
+  title: Brute Force Attack Detected
+  description: Brute Force Attack detected on Active Directory. Multiple failed authentication attempts from {EventData.SourceNetworkAddress} targeting user account {EventData.TargetUserName} on workstation {EventData.WorkstationName}.
+  severity: high
+  tags:
+    - brute-force
