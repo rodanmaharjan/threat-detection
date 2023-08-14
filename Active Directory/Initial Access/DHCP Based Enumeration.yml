@@ -1,0 +1,48 @@
+title: Detection of DHCP-Based Enumeration for AD Reconnaissance
+id: 12345678-1234-5678-abcd-1234567890ab
+status: experimental
+description: Detects DHCP-based enumeration attempts targeting the Active Directory environment.
+date: 2023-07-31
+logsource:
+  category: network
+  product: dhcp
+detection:
+  selection:
+    dhcp.message_type: 2 # DHCP Offer
+  condition: selection
+  fields:
+    - dhcp.option.domain_name
+    - dhcp.option.domain_search
+    - dhcp.option.dns_server
+    - dhcp.option.server_id
+    - dhcp.option.server_ip
+    - dhcp.option.client_ip
+    - dhcp.option.hostname
+    - dhcp.option.router
+    - dhcp.option.vendor_class
+    - dhcp.option.vendor_code
+    - dhcp.option.vendor_name
+    - dhcp.option.user_class
+    - dhcp.option.user_id
+    - dhcp.option.ntp_server
+    - dhcp.option.syslog_server
+  timeframe: 5s
+level: medium
+falsepositives:
+  - Legitimate DHCP traffic with Offer messages
+  - DHCP server configuration changes
+  - DHCP server maintenance activities
+correlation:
+  - Related DHCP traffic
+  - Network flow data
+  - Active Directory logins
+  - DNS query logs
+note: DHCP-based enumeration may indicate reconnaissance or initial access attempts targeting Active Directory.
+output:
+  title: DHCP-Based Enumeration Detected
+  description: DHCP-based enumeration attempt detected from {dhcp.option.server_ip} to {dhcp.option.client_ip}. Domain Name: {dhcp.option.domain_name}. DNS Server: {dhcp.option.dns_server}.
+  severity: medium
+  tlp: white
+  tags:
+    - reconnaissance
+    - initial-access
