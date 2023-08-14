@@ -1,0 +1,27 @@
+title: Phishing Email Detection
+status: stable
+description: Detects potential phishing emails targeting Active Directory users
+logsource:
+  category: email
+  product: [Email Gateway Product Name]
+detection:
+  selection:
+    eventtype: received
+    recipientaddress: '*@yourdomain.com'
+  condition: (emailsubject contains '{phishing_keyword}') or (attachmentname contains '*.exe') or (attachmentname contains '*.zip') or (url contains '{malicious_domain}')
+fields:
+  - eventtime
+  - senderaddress
+  - recipientaddress
+  - emailsubject
+  - attachmentname
+  - url
+falsepositives:
+  - Legitimate user interactions with attachments or URLs containing keywords
+level: medium
+tags:
+  - phishing
+output:
+  title: Potential Phishing Email Detected
+  description: Potential phishing email detected from {senderaddress} to {recipientaddress}. Subject: {emailsubject}. Attachment: {attachmentname}. URL: {url}.
+  severity: medium
