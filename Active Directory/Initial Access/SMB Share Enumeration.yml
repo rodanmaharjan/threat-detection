@@ -1,0 +1,23 @@
+title: SMB Share Enumeration
+id: smb_share_enumeration
+status: experimental
+description: Detects SMB share enumeration attempts by querying the share list.
+logsource:
+  category: network
+  product: windows
+detection:
+  selection:
+    EventID: 5145
+    ShareName: 'IPC$'
+    AccessMask: '0x101'
+  condition: selection.AccessMask
+fields:
+  - EventID
+  - ShareName
+  - AccessMask
+  - SourceAddress
+  - DestinationAddress
+output:
+  title: SMB Share Enumeration Detected
+  description: SMB share enumeration attempt detected from {SourceAddress} to {DestinationAddress}. Share name: {ShareName}
+  level: high
