@@ -1,0 +1,29 @@
+title: Port Scanning Activity in Active Directory
+status: experimental
+description: Detects potential port scanning activity targeting domain controller services in an Active Directory environment.
+logsource:
+  category: network
+  product: firewall
+  service: any
+detection:
+  selection:
+    destination:
+      port:
+        - 53
+        - 88
+        - 135
+        - 137
+        - 138
+        - 139
+        - 389
+        - 445
+        - 464
+        - 3268
+        - 3269
+    address:
+      ip:
+        - $IP_RANGE
+  condition: count() > 10
+output:
+  description: Potential port scanning activity targeting domain controller services detected from {source.ip} to {destination.ip} on port {destination.port}.
+  severity: medium
