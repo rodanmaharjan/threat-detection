@@ -1,0 +1,26 @@
+title: MS-RPC Enumeration and Reconnaissance
+status: experimental
+description: Detects potential MS-RPC enumeration and reconnaissance activity.
+logsource:
+    category: network
+    product: firewall
+detection:
+    selection:
+        destination_port:
+            - 135
+            - 593
+    condition: 
+        (protocol: "MSRPC" OR
+        (named_pipe: "\\pipe\\lsarpc" OR named_pipe: "\\pipe\\samr" OR named_pipe: "\\pipe\\svcctl" OR named_pipe: "\\pipe\\atsvc" OR named_pipe: "\\pipe\\epmapper") AND
+        (auth.type: "null" OR auth.type: "unauthenticated"))
+fields:
+    - source_ip
+    - destination_ip
+    - destination_port
+    - named_pipe
+    - auth.type
+    - event.timestamp
+    - event.severity
+falsepositives:
+    - Legitimate MS-RPC communication in the network.
+level: medium
