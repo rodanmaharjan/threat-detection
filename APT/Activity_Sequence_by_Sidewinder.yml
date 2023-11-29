@@ -1,0 +1,30 @@
+title: Activity_Sequence_by_Sidewinder
+id: sidewinder_activity_sequence
+description: Detects a sequence of malicious activities of sidewinder, including VBScript execution, BAT file execution, ZIP content copying, and executable launch.
+author: Rodan Maharjan
+date: 2023-11-29
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    - EventID: 1
+      Image: 'C:\Users\admin\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\*.vbs'
+    - EventID: 1
+      Image: 'C:\Users\windows\AppData\Local\*.bat'
+    - EventID: 7
+      TargetFilename: 'C:\Users\windows\AppData\Local\*'
+      DestinationFilename: 'C:\Users\windows\AppData\Local\*'
+      CommandLine: '*\Microsoft\conhost.zip*'
+    - EventID: 1
+      Image: 'C:\Users\windows\AppData\Local\*.exe'
+    - EventID: 1
+      CommandLine: '*\*.exe'
+  condition: all of them
+tags:
+  - malicious
+  - ransomware
+  - sysmon
+falsepositives:
+  - Legitimate use of scripts and executables
+level: high
