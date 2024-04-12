@@ -1,0 +1,42 @@
+title: Detect DarkMe RAT Activity Sequence
+id: darkme_rat_activity
+description: Detects activity associated with DarkMe RAT based on observed sequence of actions.
+tags:
+  - malware
+  - rat
+  - darkme
+author: Rodan Maharjan
+status: experimental
+
+logsource:
+  category: process_creation
+  product: windows
+
+detection:
+  sequence:
+    - action:
+        command_line: "\\*\7z.exe *"
+      subsequence:
+        - action:
+            command_line: "\\*\7z.dll *"
+          condition: startswith
+        - action:
+            command_line: "\\*\*.jpg *"
+          condition: startswith
+        - action:
+            command_line: "\\*\*.zip *"
+          condition: startswith
+        - action:
+            command_line: "\\*\*.dll *"
+          condition: startswith
+        - action:
+            command_line: "* rundll32.exe *"
+          condition: startswith
+        - action:
+            command_line: "* reg.exe *"
+          condition: startswith
+    - action:
+        command_line: "* cmd.exe *"
+      condition: startswith
+
+level: high
