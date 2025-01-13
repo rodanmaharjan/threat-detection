@@ -1,0 +1,50 @@
+title: Detection of Initial JavaScript Script Execution of Adwind  
+id: f26c9c79-d674-4c35-9131-6f3ff1230c55 
+related: 
+    - id: 0bcfabcb-7929-47f4-93d6-b33fb67d34d1 
+      type: derived 
+status: experimental 
+description: Detects the execution of a JavaScript file associated with the 
+Adwind RAT, capturing the creation of file system objects, shell command 
+execution, base64 encoding, and file manipulation. 
+references: 
+    - https://www.hybrid
+analysis.com/sample/701435e822a78b82d53281af3ffb20b3732462ec99c6f36afdfc6f8
+ eed4123f9/677e453621dfbcc610078cac 
+    - https://app.any.run/tasks/99df371c-63a9-4176-af64-b3e94cece178 
+author: Rodan Maharjan 
+date: 2025-01-10 
+tags: 
+    - attack.execution 
+    - attack.t1059.005 
+    - attack.t1140 
+    - attack.t1083 
+logsource: 
+    category: script_event 
+    product: windows 
+detection: 
+  selection: 
+    EventID: 
+      - 4 
+      - 5 
+      - 3 
+      - 18 
+      - 16 
+      - 7 
+      - 10 
+      - 8 
+      - 9 
+      - 12 
+      - 15 
+    Image|contains: 
+      - "javaw" 
+      - "java" 
+      - "MSXML2.DOMDocument" 
+      - "ADODB.Stream" 
+    CommandLine|contains: 
+      - "C:\\Users\\admin\\AppData\\Local\\Temp\\Swift Confirmation 
+Copy.jar" 
+    ParentImage|contains: 
+      - "cmd.exe" 
+      - "powershell.exe" 
+  condition: selection 
