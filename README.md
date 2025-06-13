@@ -1,5 +1,3 @@
----
-
 # Threat Detection (Sigma Rules)
 
 A curated collection of **Sigma rules** to detect malicious behavior, adversary techniques, and indicators of compromise across different threat categories — including Remote Access Trojans (RATs), Advanced Persistent Threats (APTs), and Active Directory abuse.
@@ -102,5 +100,4 @@ Contributions are welcome! If you'd like to submit a rule, ensure:
 
 This project is licensed under the MIT License.
 
----
 
