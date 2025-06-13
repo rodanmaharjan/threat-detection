@@ -1,7 +1,3 @@
-Thanks for the clarification!
-
-Here's an updated `README.md` tailored for a **Threat Detection repository based on Sigma rules**. This version clarifies that the rules are written in [Sigma](https://sigmahq.io/), the generic and open signature format for log-based detections.
-
 ---
 
 # Threat Detection (Sigma Rules)
